@@ -4,7 +4,7 @@ require 'action_controller'
 class MyController < ActionController::Base
   include RailsParam::Param
 
-  def params;
+  def params
   end
 end
 
@@ -57,6 +57,12 @@ describe RailsParam::Param do
         allow(controller).to receive(:params).and_return({"foo" => :bar})
         controller.param! :foo, String
         expect(controller.params["foo"]).to eql("bar")
+      end
+
+      it "converts to Symbol" do
+        allow(controller).to receive(:params).and_return({"foo" => 'bar'})
+        controller.param! :foo, Symbol
+        expect(controller.params["foo"]).to eql(:bar)
       end
 
       it "converts to Integer" do
